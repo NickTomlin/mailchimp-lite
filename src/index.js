@@ -2,19 +2,20 @@ import superagent from 'superagent';
 
 export default class MailChimpConnector {
   constructor (options) {
+    if (!options.key) { throw new Error('Mailchimp API Key Required') }
+    if (!options.datacenter) { throw new Error('Mailchimp DataCenter Required') }
+
     this.key = options.key;
     this.datacenter = options.datacenter;
 
     this.apiRoot = `https://${this.datacenter}.api.mailchimp.com/3.0`;
   }
 
-  request(method, endpoint, data, transform = () => {}) {
+  request(method, endpoint, data) {
     let request = superagent[method](`${this.apiRoot}${endpoint}`)
       .auth('apikey', this.key);
 
     if (data) { request.send(data); }
-
-    transform(request);
 
     return new Promise((resolve, reject) => {
       request.end((err, response) => {
@@ -31,24 +32,24 @@ export default class MailChimpConnector {
     });
   }
 
-  get(endpoint, transform) {
-    return this.request('get', endpoint, transform);
+  get(endpoint) {
+    return this.request('get', endpoint);
   }
 
-  post(endpoint, data, transform) {
-    return this.request('post', endpoint, data, transform);
+  post(endpoint, data) {
+    return this.request('post', endpoint, data);
   }
 
-  delete(endpoint, data, transform) {
-    return this.request('del', endpoint, data, transform);
+  delete(endpoint, data) {
+    return this.request('del', endpoint, data);
   }
 
-  put(endpoint, data, transform) {
-    return this.request('put', endpoint, data, transform);
+  put(endpoint, data) {
+    return this.request('put', endpoint, data);
   }
 
-  patch(endpoint, data, transform) {
-    return this.request('patch', endpoint, data, transform);
+  patch(endpoint, data) {
+    return this.request('patch', endpoint, data);
   }
 
   batchSubscribe(data) {
