@@ -61,4 +61,13 @@ describe('MailChimp Lite', function () {
       });
     });
   });
+
+  describe('v2 api', function () {
+    let api;
+    const V2_METHODS = ['get', 'put', 'post', 'patch', 'delete'];
+
+    beforeEach(() => {
+      api = nock('https://us11.api.mailchimp.com/2.0');
+    });
+  });
 });
