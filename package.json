@@ -1,6 +1,5 @@
 {
   "name": "mailchimp-lite",
-  "version": "1.0.0",
   "description": "A lightweight wrapper for Mailchimp's v2 and v3 apis",
   "main": "dist/index.js",
   "repository": {
@@ -11,16 +10,22 @@
     "prepublish": "npm test && npm run build",
     "test": "npm run lint && mocha",
     "build": "babel -d dist src",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel": "^5.8.23",
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
+    "cracks": "^3.0.2",
     "mocha": "^2.3.0",
     "nock": "^2.10.0",
     "request": "^2.61.0",
+    "semantic-release": "^4.3.4",
     "sinon": "^1.16.1"
+  },
+  "release": {
+    "verifyRelease": "cracks"
   },
   "keywords": [
     "mailchimp",
@@ -30,5 +35,5 @@
   "dependencies": {
     "lodash.merge": "^3.3.2"
   },
-  "license" : "ISC"
+  "license": "ISC"
 }
