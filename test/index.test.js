@@ -41,23 +41,41 @@ describe('MailChimp Lite', function () {
         .basicAuth({user: 'apikey', pass: 'fakeKey'})
         .reply(200);
 
-        mailchimp.get('/lists/my-list');
-
-        expectation.done();
+      return mailchimp.get('/lists/my-list').then(() => expectation.done());
     });
 
-    it('rejects for non-successful status codes');
-    it('rejects for connection errors');
-
-    V3_METHODS.forEach(function (method) {
-      it(`Supports ${method.toUpperCase()}`, () => {
-        let expectation = api[method]('/lists/my-list')
+    it('parses JSON responses', () => {
+      let expectation = api
+        .get('/lists/my-list')
         .basicAuth({user: 'apikey', pass: 'fakeKey'})
         .reply(200);
 
-        mailchimp[method]('/lists/my-list');
+      return mailchimp.get('/lists/my-list').then(() => expectation.done());
+    });
 
-        expectation.done();
+    context('non successful responses', () => {
+      it('rejects with an error message for status codes that are not between 200-300', () => {
+        let expectation = api
+          .get('/lists/my-list')
+          .basicAuth({user: 'apikey', pass: 'fakeKey'})
+          .reply(400);
+
+        return mailchimp.get('/lists/my-list').catch((err) => {
+          expect(err).to.match(/Mailchimp Error: 400/);
+          expect(err.response).to.have.property('body');
+          expectation.done();
+        });
+      });
+    });
+
+
+    V3_METHODS.forEach(function (method) {
+      it(`supports ${method.toUpperCase()}`, () => {
+        let expectation = api[method]('/lists/my-list')
+          .basicAuth({user: 'apikey', pass: 'fakeKey'})
+          .reply(200, {});
+
+        return mailchimp[method]('/lists/my-list').then(() => expectation.done());
       });
     });
   });
@@ -77,9 +95,44 @@ describe('MailChimp Lite', function () {
         })
         .reply(200);
 
-        mailchimp.v2.post('/lists/batch-subscribe', {foo: 'bar'});
+      return mailchimp.v2.post('/lists/batch-subscribe', {foo: 'bar'})
+        .then(() => expectation.done());
+    });
 
-        expectation.done();
+    it('parses JSON responses', () => {
+      let expectation = api
+          .post('/lists/my-list.json', {
+            apikey: 'fakeKey'
+          })
+          .reply(200);
+
+      return mailchimp.v2.post('/lists/my-list').then(() => expectation.done());
+    });
+
+    it('supports POST', () => {
+      let expectation = api
+        .post('/lists/my-list.json', {
+          apikey: 'fakeKey'
+        })
+        .reply(200);
+
+      return mailchimp.v2.post('/lists/my-list').then(() => expectation.done());
+    });
+
+    context('non successful responses', () => {
+      it('rejects with an error message for status codes that are not between 200-300', () => {
+        let expectation = api
+          .post('/lists/my-list.json', {
+            apikey: 'fakeKey'
+          })
+          .reply(400, {});
+
+        return mailchimp.v2.post('/lists/my-list').catch((err) => {
+          expect(err).to.match(/Mailchimp Error: 400/);
+          expect(err.response).to.have.property('body');
+          expectation.done();
+        });
+      });
     });
   });
 });

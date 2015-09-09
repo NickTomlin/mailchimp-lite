@@ -1,6 +1,15 @@
 import API from './api';
 
 export default class V3 extends API {
+  prepareRequestOptions() {
+    return {
+      auth: {
+        username: 'apikey',
+        password: this.key
+      }
+    }
+  }
+
   get(endpoint) {
     return this.request('get', endpoint);
   }
@@ -10,7 +19,7 @@ export default class V3 extends API {
   }
 
   delete(endpoint, data) {
-    return this.request('del', endpoint, data);
+    return this.request('delete', endpoint, data);
   }
 
   put(endpoint, data) {
