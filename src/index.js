@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import V3 from './v3';
 import V2 from './v2';
 

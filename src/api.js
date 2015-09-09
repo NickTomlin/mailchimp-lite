@@ -1,4 +1,5 @@
-import superagent from 'superagent';
+import request from 'request';
+import merge from 'lodash.merge';
 
 export default class API {
   constructor({datacenter, key, version} = {}) {
@@ -13,23 +14,37 @@ export default class API {
     this.apiRoot = `https://${this.datacenter}.api.mailchimp.com/${this.version}`;
   }
 
-  request(method, endpoint, data) {
-    let request = superagent[method](`${this.apiRoot}${endpoint}`)
-    .auth('apikey', this.key);
+  prepareRequestOptions () {}
 
-    if (data) { request.send(data); }
+  request(method, endpoint, data) {
+    let requestOptions = merge({
+      method,
+      uri: `${this.apiRoot}${endpoint}`,
+      body: data
+    }, this.prepareRequestOptions(endpoint, data));
+
+    if (data) { requestOptions.json = true; }
 
     return new Promise((resolve, reject) => {
-      request.end((err, response) => {
+      request(requestOptions, (err, res, body) => {
         if (err) {
-          if (err.response && Object.keys(err.response.body).length > 0) {
-            return reject(err.response.body)
-          } else {
-            return reject(err);
-          }
+          return reject(err);
         }
 
-        resolve(response.body);
+        if (res && res.statusCode >= 200 && res.statusCode < 300) {
+          let parsedBody;
+          try {
+            parsedBody = JSON.parse(body)
+          } catch (e) {
+            parsedBody = {}
+          }
+          return resolve(parsedBody);
+        }
+
+        err = new Error(`Mailchimp Error: ${res.statusCode}`);
+        err.response = res;
+
+        reject(err);
       });
     });
   }
