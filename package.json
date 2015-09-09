@@ -18,6 +18,11 @@
     "request": "^2.61.0",
     "sinon": "^1.16.1"
   },
+  "keywords": [
+    "mailchimp",
+    "mailchimp api",
+    "email"
+  ],
   "dependencies": {
     "lodash.merge": "^3.3.2"
   },
