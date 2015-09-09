@@ -18,18 +18,18 @@ let mailchimp = new Mailchimp({
   datacenter: MAILCHIMP_DATACENTER
 });
 
-# get details on a list
+// get details on a list
 mailchimp
   .get('/list/my-list-id')
   .then((listInstance) => {
     console.log(listInstance);
   });
 
-# delete a list
+// delete a list
 mailchimp
   .delete('/lists/my-list-id');
 
-# use the v2 api to batch-subscribe (currently not available in V3 api)
+// use the v2 api to batch-subscribe (currently not available in V3 api)
 return mailchimp.v2.post('/lists/batch-subscribe', {
   id: 'my-list-id'
   update_existing: true,
