@@ -7,7 +7,8 @@ A lightweight wrapper for Mailchimp's [v2](https://apidocs.mailchimp.com/api/2.0
 npm i mailchimp-lite --save
 ```
 
-# Usage
+Usage
+---
 
 ```javascript
 let Mailchimp = require('mailchimp-lite');
@@ -41,7 +42,8 @@ return mailchimp.v2.post('/lists/batch-subscribe', {
 .then((response) => { console.log(response); })
 ```
 
-# Error Handling
+Error Handling
+---
 
 Responses with a non 200-300 status will reject with an Error object. The error has a `response` which is the response object from [request](https://github.com/request/request).
 
@@ -54,7 +56,8 @@ mailchimp
   });
 ```
 
-# Contributing
+Contributing
+---
 
 After cloning this repository:
 
