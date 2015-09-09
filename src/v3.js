@@ -1,11 +1,6 @@
 import API from './api';
 
-export default class MailChimpConnector extends API {
-  constructor (...args) {
-    super(...args);
-    this.apiRoot = `https://${this.datacenter}.api.mailchimp.com/3.0`;
-  }
-
+export default class V3 extends API {
   get(endpoint) {
     return this.request('get', endpoint);
   }

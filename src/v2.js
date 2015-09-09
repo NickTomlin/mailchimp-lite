@@ -2,11 +2,6 @@ import superagent from 'superagent';
 import API from './api';
 
 export default class V2 extends API {
-  constructor (...args) {
-    super(...args);
-    this.apiRoot = `https://${this.datacenter}.api.mailchimp.com/2.0`;
-  }
-
   request (method, endpoint, data = {}) {
     data.apikey = this.key;
     return new Promise((resolve, reject) => {
