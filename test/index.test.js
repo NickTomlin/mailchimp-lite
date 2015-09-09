@@ -64,10 +64,22 @@ describe('MailChimp Lite', function () {
 
   describe('v2 api', function () {
     let api;
-    const V2_METHODS = ['get', 'put', 'post', 'patch', 'delete'];
 
     beforeEach(() => {
       api = nock('https://us11.api.mailchimp.com/2.0');
+    });
+
+    it('sends auth info on request body', () => {
+      let expectation = api
+        .post('/lists/batch-subscribe.json', {
+          foo: 'bar',
+          apikey: 'fakeKey'
+        })
+        .reply(200);
+
+        mailchimp.v2.post('/lists/batch-subscribe', {foo: 'bar'});
+
+        expectation.done();
     });
   });
 });
