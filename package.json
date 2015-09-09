@@ -1,7 +1,7 @@
 {
   "name": "mailchimp-lite",
   "version": "1.0.0",
-  "description": "",
+  "description": "A lightweight wrapper for Mailchimp's v2 and v3 apis",
   "main": "dist/index.js",
   "scripts": {
     "prepublish": "npm test && npm run build",
@@ -20,5 +20,6 @@
   },
   "dependencies": {
     "lodash.merge": "^3.3.2"
-  }
+  },
+  "license" : "ISC"
 }
