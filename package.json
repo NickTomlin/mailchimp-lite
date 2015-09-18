@@ -6,12 +6,13 @@
     "type": "git",
     "url": "https://github.com/NickTomlin/mailchimp-lite.git"
   },
+  "files": ["dist"],
   "scripts": {
     "prepublish": "npm run build",
     "test": "npm run lint && mocha",
     "build": "babel -d dist src",
     "lint": "eslint .",
-    "semantic-release": "semantic-release pre && npm run build && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "babel": "^5.8.23",
