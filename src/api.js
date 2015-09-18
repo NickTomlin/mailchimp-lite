@@ -32,6 +32,10 @@ export default class API {
         }
 
         if (res && res.statusCode >= 200 && res.statusCode < 300) {
+          if (requestOptions.json) {
+            return resolve(body);
+          }
+
           let parsedBody;
           try {
             parsedBody = JSON.parse(body)
