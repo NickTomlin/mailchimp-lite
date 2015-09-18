@@ -6,7 +6,6 @@
     "type": "git",
     "url": "https://github.com/NickTomlin/mailchimp-lite.git"
   },
-  "files": ["dist"],
   "scripts": {
     "prepublish": "npm run build",
     "test": "npm run lint && mocha",
