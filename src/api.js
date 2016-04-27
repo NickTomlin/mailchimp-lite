@@ -1,5 +1,6 @@
 import request from 'request';
 import merge from 'lodash.merge';
+import rsvp from 'rsvp';
 
 export default class API {
   constructor({datacenter, key, version} = {}) {
@@ -25,7 +26,7 @@ export default class API {
 
     if (data) { requestOptions.json = true; }
 
-    return new Promise((resolve, reject) => {
+    return new rsvp.Promise((resolve, reject) => {
       request(requestOptions, (err, res, body) => {
         if (err) {
           return reject(err);
